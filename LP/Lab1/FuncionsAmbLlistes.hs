@@ -31,5 +31,46 @@ removeFromList (x:xs) y =
   else [x] ++ removeFromList xs y
 
 remove::[Int]->[Int]->[Int]
-remove x [] = []
-remove x (y:ys) = remove (removeFromList x y) ys
+remove [] [] = []
+remove [] (y:ys) = []
+remove (x:xs) [] = (x:xs)
+remove (x:xs) (y:ys) = remove (removeFromList (x:xs) y) ys
+
+flatten::[[Int]]->[Int]
+flatten [] = []
+flatten (x:xs) = x ++ flatten xs
+
+oddsNevens::[Int]->([Int],[Int])
+oddsNevens [] = ([],[])
+oddsNevens (x:xs) = (filter odd (x:xs), filter even (x:xs))
+
+isPrimeAux::Int->Int->Bool
+isPrimeAux a b
+	| b == 1 = True
+	| otherwise = if mod a b == 0 then False
+			else isPrimeAux a (b-1)
+
+isPrime::Int->Bool
+isPrime a
+	| a <= 1    = False
+	| otherwise = isPrimeAux a (a-1)
+
+isDivisor::Int->Int->Bool
+isDivisor x y
+  | (mod x y) == 0 = True
+  | otherwise = False
+
+primeAndDivisor::Int->Int->[Int]
+primeAndDivisor x y
+  | x == 1 = []
+  | y == 1 = []
+  | otherwise =
+      if isDivisor x y && isPrime y then
+        primeAndDivisor x (y-1) ++ [y]
+      else
+        primeAndDivisor x (y-1)
+
+
+primeDivisors::Int->[Int]
+primeDivisors 1 = []
+primeDivisors n = primeAndDivisor n n
