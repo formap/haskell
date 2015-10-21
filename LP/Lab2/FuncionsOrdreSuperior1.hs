@@ -7,20 +7,19 @@ eql (x:xs) (y:ys)
   | otherwise = all (== True) (zipWith (==) (x:xs) (y:ys))
 
 prod::[Int]->Int
-prod [] = 0
+prod [] = 1
 prod (x:xs) = foldr (*) 1 (x:xs)
+-- alternative
+-- prod = foldr (*) 1
 
 prodOfEvens::[Int]->Int
-prodOfEvens [] = 0
-prodOfEvens (x:xs) =
-  if array /= [] then
-    foldr (*) 1 array
-  else
-    0
-  where array = (filter (even) (x:xs))
+prodOfEvens [] = 1
+prodOfEvens (x:xs) = foldr (*) 1 (filter (even) (x:xs))
 
 powersOf2::[Int]
 powersOf2 = iterate (2*)1
+-- alternative
+-- powersOf2 = [2^i | i <- [0..]]
 
 scalarProduct::[Float]->[Float]->Float
 scalarProduct [] [] = 0
