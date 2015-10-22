@@ -8,17 +8,13 @@ isort::[Int]->[Int]
 isort [] = []
 isort (x:xs) = insert (isort xs) x
 
-removeFirstOccurrence::[Int]->Int->Bool->[Int]
-removeFirstOccurrence [] y z = []
-removeFirstOccurrence (x:xs) y z =
-  if x == y && z == False then
-    removeFirstOccurrence xs y True
-  else
-    [x] ++ removeFirstOccurrence xs y z
-
 remove::[Int]->Int->[Int]
 remove [] y = []
-remove (x:xs) y = removeFirstOccurrence (x:xs) y False
+remove (x:xs) y =
+  if x == y then
+    xs
+  else
+    x : (remove xs y)
 
 ssort::[Int]->[Int]
 ssort [] = []
@@ -30,9 +26,9 @@ merge (x:xs) [] = (x:xs)
 merge [] (y:ys) = (y:ys)
 merge (x:xs) (y:ys) =
   if x <= y then
-    [x] ++ [y] ++ merge xs ys
+    [x] ++ merge xs (y:ys)
   else
-    [y] ++ [x] ++ merge xs ys
+    [y] ++ merge (x:xs) ys
 
 msort::[Int]->[Int]
 msort [] = []
